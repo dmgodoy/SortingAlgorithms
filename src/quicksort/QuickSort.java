@@ -6,10 +6,16 @@ public class QuickSort {
         array[i] = array[j];
         array[j] = temp;
     }
-
     public static void sort(int[] array, int start, int end) {
+        System.out.println(end - start);
         if (end - start <= 0)
             return;
+        int p = partition(array, start, end);
+        // now pivot is in its place, so we sort left and right
+        sort(array, start, p - 1);
+        sort(array, p + 1, end);
+    }
+    private static int partition(int[] array, int start, int end) {
         int p = start;
         int low = start;
         int high = end;
@@ -21,11 +27,11 @@ public class QuickSort {
             if (low < high) // check that low and high didn't cross yet
                 swap(array, low, high);
         }
-        if (array[high] < array[p])
+        if (array[high] <= array[p]){ // pivot should end up in its place, that's why lower or EQUAL is important
             swap(array, high, p);
-        // now pivot is in its place, so we sort left and right
-        sort(array, start, p - 1);
-        sort(array, p + 1, end);
+            p = high;
+        }
+        return p;
     }
 
     public static void sort(int[] array) {
@@ -33,7 +39,7 @@ public class QuickSort {
     }
 
     public static void main(String[] args) {
-        int[] a = new int[] { 4, 1, 3, 7, 2, 1, 1, 9, 100 };
+        int[] a = new int[] {1,3,2,4,3,2,5,8,7,9};
         QuickSort.sort(a);
         for (int i = 0; i < a.length; i++)
             System.out.print("" + a[i] + " ");
